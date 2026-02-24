@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prosperity Prognosticator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0d1b2a, #1b2a4a);
+            min-height: 100vh; color: #fff; margin: 0;
+        }
+        nav {
+            display: flex; justify-content: space-between;
+            align-items: center; padding: 18px 60px;
+            background: rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .nav-brand { font-size: 22px; font-weight: 700; color: #ffa600; }
+        .nav-btn {
+            background: #ffa600; color: #0d1b2a;
+            padding: 10px 28px; border-radius: 25px;
+            font-weight: 600; text-decoration: none;
+        }
+        .hero { text-align: center; padding: 100px 40px 80px; }
+        .hero h1 { font-size: 58px; font-weight: 800; }
+        .hero h1 span { color: #ffa600; }
+        .hero p { color: #9aafc4; font-size: 19px; margin: 20px auto; }
+        .btn-primary {
+            background: linear-gradient(135deg, #ffa600, #ff7b00);
+            color: #0d1b2a; padding: 16px 44px;
+            border-radius: 30px; font-weight: 700;
+            text-decoration: none; font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-brand">Prosperity Prognosticator</div>
+        <a href="/predict" class="nav-btn">Predict Now</a>
+    </nav>
+    <section class="hero">
+        <h1>Predict Startup <span>Success</span></h1>
+        <p>Enter your startup metrics and get an ML-powered prediction instantly.</p>
+        <a href="/predict" class="btn-primary">Start Prediction</a>
+    </section>
+</body>
+</html>

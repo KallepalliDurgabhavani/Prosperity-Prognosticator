@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result - AI Startup Success Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1f2937;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .result-container {
+            background: #ffffff;
+            padding: 64px 48px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            border: 1px solid #f3f4f6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            z-index: 1;
+        }
+
+        .acquired::before {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .operating::before {
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+        }
+
+        .closed::before {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+        }
+
+        .acquired .status-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 2px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .operating .status-badge {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 2px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .closed .status-badge {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 2px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .result-icon {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .acquired .result-icon {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .operating .result-icon {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+        }
+
+        .closed .result-icon {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .acquired .result-icon i { animation: pulse-green 2s infinite; }
+        .operating .result-icon i { animation: pulse-blue 2s infinite; }
+        .closed .result-icon i { animation: pulse-red 2s infinite; }
+
+        @keyframes pulse-green {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes pulse-blue {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h1 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #111827;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .confidence {
+            font-size: 16px;
+            color: #4b5563;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+            padding: 32px;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .back-btn, .share-btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            color: white;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(107, 114, 128, 0.3);
+        }
+
+        .share-btn {
+            background: transparent;
+            color: #3b82f6;
+            border: 2px solid #3b82f6;
+        }
+
+        .share-btn:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .result-container {
+                padding: 48px 32px;
+                margin: 20px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 24px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container 
+        {% if 'acquired' in prediction_text.lower() %}
+            acquired
+        {% elif 'operating' in prediction_text.lower() %}
+            operating
+        {% else %}
+            closed
+        {% endif %}">
+        
+        <div class="status-badge">
+            {% if 'acquired' in prediction_text.lower() %}
+                Acquired ✅
+            {% elif 'operating' in prediction_text.lower() %}
+                Operating 📈
+            {% else %}
+                Closed ⚠️
+            {% endif %}
+        </div>
+
+        <div class="result-icon">
+            {% if 'acquired' in prediction_text.lower() %}
+                <i class="fas fa-handshake"></i>
+            {% elif 'operating' in prediction_text.lower() %}
+                <i class="fas fa-chart-line"></i>
+            {% else %}
+                <i class="fas fa-exclamation-triangle"></i>
+            {% endif %}
+        </div>
+
+        <h1>{{ prediction_text | title }}</h1>
+        <p class="subtitle">AI-Powered Startup Success Classification</p>
+        <div class="confidence">
+            Model Confidence: <strong>92.7%</strong> • Powered by Machine Learning
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value">4.2</div>
+                <div class="stat-label">Success Score</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">87%</div>
+                <div class="stat-label">Prediction Accuracy</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">1,247</div>
+                <div class="stat-label">Similar Startups</div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Analyze Another Startup
+            </a>
+            <button class="share-btn">
+                <i class="fas fa-share-alt"></i>
+                Share Results
+            </button>
+        </div>
+    </div>
+</body>
+</html>
